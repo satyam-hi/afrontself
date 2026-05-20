@@ -1153,7 +1153,7 @@ export default function ProviderKioskPage() {
           </div>
           <div>
 
-            <div onClick={() => setCartOpen(true)} className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm md:text-base font-semibold shadow inline">
+            <div onClick={() => setCartOpen(true)} className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm md:text-base font-semibold shadow mb-2">
               🛒 {cart.length}
             </div>
             <div
