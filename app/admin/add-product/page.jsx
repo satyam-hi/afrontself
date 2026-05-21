@@ -107,8 +107,11 @@ export default function AddProductPage() {
       );
 
 
-      if (image) {
-        formData.append("image", image);
+      // if (image) {
+      //   formData.append("image", image);
+      // }
+        if (image) {
+        formData.append("image", "");
       }
 
       const res = await fetch(
