@@ -184,20 +184,29 @@ export default function AddProductPage() {
           );
 
           const data = await res.json();
-              //     // RESET
-        setForm({
-          name: "",
-          description: "",
-          price: "",
-          spcategoryid: "",
-          sptypeid: "",
-          sprovid: cookies.id,
-        });
+                 setLoading(false);
 
-        setImage(null);
-        setPreview(null);
+            if (data.success) {
+              setMsg({ type: "success", text: data.message });
 
-        setTimeout(() => setMsg(null), 3000);
+              // RESET
+              setForm({
+                name: "",
+                description: "",
+                price: "",
+                spcategoryid: "",
+                sptypeid: "",
+                sprovid: cookies.id,
+              });
+
+              setImage(null);
+              setPreview(null);
+
+              setTimeout(() => setMsg(null), 3000);
+            } else {
+              setMsg({ type: "error", text: data.message });
+            }
+        
 
         } catch (error) {
           console.log(error);
