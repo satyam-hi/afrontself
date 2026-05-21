@@ -75,62 +75,116 @@ export default function AddProductPage() {
     setLoading(true);
     setMsg(null);
 
-    try {
-      const formData = new FormData();
+    // try {
+    //   const formData = new FormData();
 
-      formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("price", form.price);
-      formData.append("spcategoryid", form.spcategoryid);
-      formData.append("sptypeid", form.sptypeid);
-      formData.append("sprovid", form.sprovid);
-      formData.append("imagelink", form.imagelink);
-      // formData.append("sptypename", form.sptypeid);
-      // formData.append("spcategoryname", form.spcategoryid);
+    //   formData.append("name", form.name);
+    //   formData.append("description", form.description);
+    //   formData.append("price", form.price);
+    //   formData.append("spcategoryid", form.spcategoryid);
+    //   formData.append("sptypeid", form.sptypeid);
+    //   formData.append("sprovid", form.sprovid);
+    //   formData.append("imagelink", form.imagelink);
+    //   // formData.append("sptypename", form.sptypeid);
+    //   // formData.append("spcategoryname", form.spcategoryid);
 
-      const selectedCategory = categories.find(
-        (c) => c.spcategoryid === form.spcategoryid
-      );
+    //   const selectedCategory = categories.find(
+    //     (c) => c.spcategoryid === form.spcategoryid
+    //   );
 
-      const selectedType = types.find(
-        (t) => t.sptypeid === form.sptypeid
-      );
+    //   const selectedType = types.find(
+    //     (t) => t.sptypeid === form.sptypeid
+    //   );
 
-      formData.append(
-        "spcategoryname",
-        selectedCategory?.name || ""
-      );
+    //   formData.append(
+    //     "spcategoryname",
+    //     selectedCategory?.name || ""
+    //   );
 
-      formData.append(
-        "sptypename",
-        selectedType?.name || ""
-      );
+    //   formData.append(
+    //     "sptypename",
+    //     selectedType?.name || ""
+    //   );
 
 
-      // if (image) {
-      //   formData.append("image", image);
-      // }
-        if (image) {
-        formData.append("image", "");
-      }
-      const obj = Object.fromEntries(formData.entries());
+    //   // if (image) {
+    //   //   formData.append("image", image);
+    //   // }
+    //     if (image) {
+    //     formData.append("image", "");
+    //   }
+    //   const obj = Object.fromEntries(formData.entries());
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/create`,
-        {
-          method: "POST",
-          // body: formData,
-          body: JSON.stringify(obj),
-        }
-      );
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/create`,
+    //     {
+    //       method: "POST",
+    //       // body: formData,
+    //       body: JSON.stringify(obj),
+    //     }
+    //   );
 
-      const data = await res.json();
-      setLoading(false);
+    //   const data = await res.json();
+    //   setLoading(false);
 
-      if (data.success) {
-        setMsg({ type: "success", text: data.message });
+    //   if (data.success) {
+    //     setMsg({ type: "success", text: data.message });
 
-        // RESET
+    //     // RESET
+    //     setForm({
+    //       name: "",
+    //       description: "",
+    //       price: "",
+    //       spcategoryid: "",
+    //       sptypeid: "",
+    //       sprovid: cookies.id,
+    //     });
+
+    //     setImage(null);
+    //     setPreview(null);
+
+    //     setTimeout(() => setMsg(null), 3000);
+    //   } else {
+    //     setMsg({ type: "error", text: data.message });
+    //   }
+    // } catch (err) {
+    //   setLoading(false);
+    //   setMsg({ type: "error", text: err.message });
+    // }
+            try {
+          const selectedCategory = categories.find(
+            (c) => c.spcategoryid === form.spcategoryid
+          );
+
+          const selectedType = types.find(
+            (t) => t.sptypeid === form.sptypeid
+          );
+
+          const payload = {
+            name: form.name,
+            description: form.description,
+            price: form.price,
+            spcategoryid: form.spcategoryid,
+            sptypeid: form.sptypeid,
+            sprovid: form.sprovid,
+            imagelink: form.imagelink,
+            spcategoryname: selectedCategory?.name || "",
+            sptypename: selectedType?.name || "",
+          };
+
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/create`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
+
+          const data = await res.json();
+              //     // RESET
         setForm({
           name: "",
           description: "",
@@ -144,13 +198,10 @@ export default function AddProductPage() {
         setPreview(null);
 
         setTimeout(() => setMsg(null), 3000);
-      } else {
-        setMsg({ type: "error", text: data.message });
-      }
-    } catch (err) {
-      setLoading(false);
-      setMsg({ type: "error", text: err.message });
-    }
+
+        } catch (error) {
+          console.log(error);
+        }
   }
 
   return (
