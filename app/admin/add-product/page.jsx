@@ -115,7 +115,8 @@ export default function AddProductPage() {
         `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/create`,
         {
           method: "POST",
-          body: formData,
+          // body: formData,
+          body: JSON.stringify(formData),
         }
       );
 

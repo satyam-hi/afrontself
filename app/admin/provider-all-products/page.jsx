@@ -197,7 +197,8 @@ const [openImageModal, setOpenImageModal] = useState(false);
         `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/${selectedProduct._id}`,
         {
           method: "PUT",
-          body: formData,
+          // body: formData,
+          body: JSON.stringify(formData),
         }
       );
 
