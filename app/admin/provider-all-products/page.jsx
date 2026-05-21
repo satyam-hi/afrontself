@@ -181,26 +181,40 @@ const [openImageModal, setOpenImageModal] = useState(false);
 
     try {
 
-      const formData = new FormData();
+      // const formData = new FormData();
 
-      formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("price", form.price);
-      formData.append("isAvailable", form.isAvailable);
-      formData.append("imagelink", form.imagelink);
+      // formData.append("name", form.name);
+      // formData.append("description", form.description);
+      // formData.append("price", form.price);
+      // formData.append("isAvailable", form.isAvailable);
+      // formData.append("imagelink", form.imagelink);
 
-      if (image) {
-        // formData.append("image", image);
-        formData.append("image", "");
-      }
+      // if (image) {
+      //   // formData.append("image", image);
+      //   formData.append("image", "");
+      // }
 
-      const obj = Object.fromEntries(formData.entries());
+      // const obj = Object.fromEntries(formData.entries());
+
+       const payload = {
+            name: form.name,
+            description: form.description,
+            price: form.price,
+            imagelink: form.imagelink,
+            isAvailable: form.isAvailable,
+            // spcategoryid: form.spcategoryid,
+            // sptypeid: form.sptypeid,
+            // sprovid: form.sprovid,
+            // spcategoryname: selectedCategory?.name || "",
+            // sptypename: selectedType?.name || "",
+          };
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/${selectedProduct._id}`,
         {
           method: "PUT",
           // body: formData,
-          body: JSON.stringify(obj),
+          // body: JSON.stringify(obj),
+          body: JSON.stringify(payload),
         }
       );
 
