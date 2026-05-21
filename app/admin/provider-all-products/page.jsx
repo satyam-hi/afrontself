@@ -190,15 +190,17 @@ const [openImageModal, setOpenImageModal] = useState(false);
       formData.append("imagelink", form.imagelink);
 
       if (image) {
-        formData.append("image", image);
+        // formData.append("image", image);
+        formData.append("image", "");
       }
 
+      const obj = Object.fromEntries(formData.entries());
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/${selectedProduct._id}`,
         {
           method: "PUT",
           // body: formData,
-          body: JSON.stringify(formData),
+          body: JSON.stringify(obj),
         }
       );
 

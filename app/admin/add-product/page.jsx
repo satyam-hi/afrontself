@@ -113,13 +113,14 @@ export default function AddProductPage() {
         if (image) {
         formData.append("image", "");
       }
+      const obj = Object.fromEntries(formData.entries());
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/product/create`,
         {
           method: "POST",
           // body: formData,
-          body: JSON.stringify(formData),
+          body: JSON.stringify(obj),
         }
       );
 
