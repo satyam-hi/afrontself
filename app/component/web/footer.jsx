@@ -190,7 +190,7 @@ export default function Footer(){
                         </p>
     
                         <p className="text-gray-300">
-                          support@kioskcloud.com
+                          satyamkuart111@gmail.com
                         </p>
                       </div>
     
@@ -208,7 +208,7 @@ export default function Footer(){
                         </p>
     
                         <p className="text-gray-300">
-                          +91 9876543210
+                          +91 8319445102
                         </p>
                       </div>
     
@@ -226,7 +226,7 @@ export default function Footer(){
                         </p>
     
                         <p className="text-gray-300 leading-6">
-                          Madhya Pradesh, India
+                          Khandwa naka,  indore, Madhya Pradesh, India
                         </p>
                       </div>
     

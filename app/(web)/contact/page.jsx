@@ -22,21 +22,21 @@ export default function ContactPage() {
             <div>
               <h3 className="font-bold text-orange-400">Email</h3>
               <p className="text-gray-300">
-                support@kioskcloud.com
+               satyamkumart111@gmail.com
               </p>
             </div>
 
             <div>
               <h3 className="font-bold text-orange-400">Phone</h3>
               <p className="text-gray-300">
-                +91 9876543210
+                +91 8319445102
               </p>
             </div>
 
             <div>
               <h3 className="font-bold text-orange-400">Address</h3>
               <p className="text-gray-300">
-                Your Office Address Here, India
+               Khandwa naka,  indore, Madhya Pradesh, India
               </p>
             </div>
 
