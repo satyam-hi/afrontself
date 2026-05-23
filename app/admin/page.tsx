@@ -23,7 +23,7 @@ export default async function AdminHome() {
       {/* AdminHome page — ID: {id}, Role: {role}
       {role === "1" ?<p>You are User  </p>:<p>You are Provider  </p>} */}
 
-    {role== "2" ? <ProviderDashboardHome /> : <UserDashboardHome/>}
+    {role== "2" ? <ProviderDashboardHome /> : <UserDashboardHome id={id} />}
 
 
     </div>

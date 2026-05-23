@@ -58,9 +58,9 @@ export default function Header() {
 
             {loginOpen && (
               <div className="absolute bg-white shadow-lg rounded mt-2 py-2 w-40 z-20">
-                {/* <Link href="/login" className="block px-4 py-2 hover:bg-gray-100" onClick={()=> setLoginOpen(!loginOpen)}>
+                 <Link href="/login" className="block px-4 py-2 hover:bg-gray-100" onClick={()=> setLoginOpen(!loginOpen)}>
                    Login User
-                </Link> */}
+                </Link> 
                 <Link
                   href="/login-provider"
                   className="block px-4 py-2 hover:bg-gray-100"
@@ -86,9 +86,9 @@ export default function Header() {
 
             {registerOpen && (
               <div className="absolute bg-white shadow-lg rounded mt-2 py-2 w-48 z-20">
-                {/* <Link href="/register" className="block px-4 py-2 hover:bg-gray-100"  onClick={()=> setRegisterOpen(!registerOpen)}>
+                 <Link href="/register" className="block px-4 py-2 hover:bg-gray-100"  onClick={()=> setRegisterOpen(!registerOpen)}>
                   Register User
-                </Link> */}
+                </Link> 
                 <Link
                   href="/register-provider"
                   className="block px-4 py-2 hover:bg-gray-100"
@@ -130,7 +130,7 @@ export default function Header() {
           <details>
             <summary className="cursor-pointer">Login</summary>
             <div className="flex flex-col ml-4">
-              {/* <Link href="/login" onClick={() => setOpen(false)}>Login User</Link> */}
+               <Link href="/login" onClick={() => setOpen(false)}>Login User</Link> 
               <Link href="/login-provider" onClick={() => setOpen(false)}>
                 Login Provider
               </Link>
@@ -141,9 +141,9 @@ export default function Header() {
           <details>
             <summary className="cursor-pointer">Register</summary>
             <div className="flex flex-col ml-4">
-              {/* <Link href="/register" onClick={() => setOpen(false)}>
+               <Link href="/register" onClick={() => setOpen(false)}>
                 Register User
-              </Link> */}
+              </Link> 
               <Link href="/register-provider" onClick={() => setOpen(false)}>
                 Register Provider
               </Link>

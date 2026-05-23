@@ -46,10 +46,11 @@ export default function ProviderKioskPage() {
   const [queOpen, setQueOpen] = useState(false);
   const [queueOrders, setQueueOrders] = useState([]);
   const [queueLoading, setQueueLoading] = useState(false);
+  const [trackOrder, setTrackOrder] = useState(true);
 
 
 
-  const LIMIT = 2;
+  const LIMIT = 15;
 
   // razore pay script==========================
 
@@ -335,21 +336,24 @@ export default function ProviderKioskPage() {
         return alert("Cart is empty");
       }
 
+
+      if(trackOrder){
       // MOBILE VALIDATION
       if (!customerMobile) {
-        return alert("Customer mobile number required");
+        return alert("Customer mobile number is required for live order tracking");
       }
 
       // SIMPLE INDIA MOBILE VALIDATION
       if (!/^[6-9]\d{9}$/.test(customerMobile)) {
         return alert("Enter valid mobile number");
       }
+      }
 
       const payload = {
         sprovid,
         sprovname,
 
-        customerMobile,
+          customerMobile : trackOrder? customerMobile : 9494949494,
         paymentMethod,
 
         items: cart.map((item) => ({
@@ -543,7 +547,6 @@ export default function ProviderKioskPage() {
       //   console.log("payload", payload)
       //   alert(paymentMethod)
       //   return;
-
       // }
          if (paymentMethod === "online") {
 
@@ -1435,8 +1438,27 @@ export default function ProviderKioskPage() {
 
                 <div className="border-t mt-4 pt-4 space-y-4">
 
-                  {/* MOBILE */}
+                
 
+                  <div className="flex items-start gap-3 rounded-xl border border-gray-200 p-4 bg-white shadow-sm">
+                      <input
+                        id="track-order"
+                        type="checkbox"
+                        checked={trackOrder}
+                        onChange={(e) => setTrackOrder(e.target.checked)}
+                        className="mt-1 h-5 w-5 accent-blue-600 cursor-pointer"
+                      />
+
+                      <label
+                        htmlFor="track-order"
+                        className="text-sm text-gray-700 leading-5 cursor-pointer"
+                      >
+                        Track your order status on mobile for real-time updates.
+                      </label>
+                    </div>
+
+                  {/* MOBILE */}
+                  {trackOrder && (
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Mobile Number
@@ -1452,7 +1474,7 @@ export default function ProviderKioskPage() {
                       className="w-full border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none p-3 rounded-xl"
                       maxLength={10}
                     />
-                  </div>
+                  </div>)}
 
                   {/* GST */}
 
@@ -1688,8 +1710,25 @@ export default function ProviderKioskPage() {
 
                   {/* FORM */}
                   <div className="border-t mt-4 pt-4 space-y-4">
+                     <div className="flex items-start gap-3 rounded-xl border border-gray-200 p-4 bg-white shadow-sm">
+                      <input
+                        id="track-order"
+                        type="checkbox"
+                        checked={trackOrder}
+                        onChange={(e) => setTrackOrder(e.target.checked)}
+                        className="mt-1 h-5 w-5 accent-blue-600 cursor-pointer"
+                      />
+
+                      <label
+                        htmlFor="track-order"
+                        className="text-sm text-gray-700 leading-5 cursor-pointer"
+                      >
+                        Track your order status on mobile for real-time updates.
+                      </label>
+                    </div>
 
                     {/* MOBILE */}
+                  {trackOrder && (
                     <input
                       type="tel"
                       placeholder="Enter mobile number"
@@ -1697,7 +1736,7 @@ export default function ProviderKioskPage() {
                       onChange={(e) => setCustomerMobile(e.target.value)}
                       className="w-full border p-3 rounded-xl"
                       maxLength={10}
-                    />
+                    />)}
 
                     {/* GST */}
                     {/* {/* {gstTake && (
@@ -1710,8 +1749,8 @@ export default function ProviderKioskPage() {
 
                 <div className="mb-4">
 
-                  <label className="block text-sm font-medium mb-2">
-                   Order Type {ordrType}
+                  <label className="block text-sm font-medium mb-2 text-green-700">
+                   Order Type : <span className="font-bold">{ordrType}</span>
                   </label>
 
                   <div className="space-y-2">
@@ -1730,6 +1769,7 @@ export default function ProviderKioskPage() {
                         onChange={(e) =>
                           setOrderType(e.target.value)
                         }
+                        className="hidden"
                       />
 
                       <span>Dining</span>
@@ -1747,6 +1787,7 @@ export default function ProviderKioskPage() {
                         onChange={(e) =>
                           setOrderType(e.target.value)
                         }
+                        className="hidden"
                       />
 
                       <span>Packaging</span>
@@ -1789,6 +1830,9 @@ export default function ProviderKioskPage() {
                     </div>
 
                     {/* PAYMENT */}
+                    <label className="block text-sm font-medium mb-2 text-green-700">
+                   Payment Type : <span className="font-bold">{paymentMethod}</span>
+                  </label>
                     <div className="space-y-2">
 
                       <label className="flex gap-2 items-center border p-3 rounded-xl">
@@ -1798,6 +1842,7 @@ export default function ProviderKioskPage() {
                           value="pay_at_counter"
                           checked={paymentMethod === "pay_at_counter"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="hidden"
                         />
                         Pay At Counter
                       </label>
@@ -1809,6 +1854,7 @@ export default function ProviderKioskPage() {
                           value="online"
                           checked={paymentMethod === "online"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
+                          className="hidden"
                         />
                         Pay Online
                       </label>

@@ -217,8 +217,12 @@ export default function ProviderOrdersPage() {
           >
             <option value="All">All Status</option>
             <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
             <option value="Preparing">Preparing</option>
+            <option value="Ready">Ready</option>
+            <option value="On The Way">On The Way</option>
             <option value="Completed">Completed</option>
+            
           </select>
 
           <select
@@ -334,9 +338,12 @@ export default function ProviderOrdersPage() {
                     className="border p-2 rounded"
                   >
                     <option>Pending</option>
+                     <option>Accepted</option>
                     <option>Preparing</option>
+                    <option>Ready</option>
+                    <option>On The Way</option>
                     <option>Completed</option>
-                    <option disabled>Cancelled</option>
+                    <option disabled={order.paymentMethod === 'online'? true : false}>Cancelled</option>
                     
                   </select>
 

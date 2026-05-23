@@ -54,8 +54,10 @@ export default function ProviderAdminHeader() {
           <Link href="/admin/add-product">Add Product</Link>
           <Link href="/admin/provider-all-products">My Products</Link>
           <Link href="/admin/provider-my-orders">My Orders</Link>
+          <Link href="/admin/add-user">Add User</Link>
           <Link href="/admin/analytics">Analytics</Link>
           <Link href="/admin/edit-provider-profile">Profile</Link>
+          
           
           <ProviderLogoutButton />
           
@@ -95,6 +97,8 @@ export default function ProviderAdminHeader() {
           <Link href="/admin/add-product" onClick={() => setOpen(false)}>Add Product</Link>
           <Link href="/admin/provider-all-products" onClick={() => setOpen(false)}>My Products</Link>
           <Link href="/admin/provider-my-orders" onClick={() => setOpen(false)}>My Orders</Link>
+          <Link href="/admin/add-user" onClick={() => setOpen(false)}>Add User</Link>
+
           <Link href="/admin/analytics" onClick={() => setOpen(false)}>Analytics</Link>
           <Link href="/admin/edit-provider-profile" onClick={() => setOpen(false)}>Profile</Link>
           <ProviderLogoutButton />

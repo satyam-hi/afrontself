@@ -32,7 +32,7 @@ export default function UserAdminHeader() {
 
         {/* LOGO */}
         <Link href="/admin" className="text-xl font-bold">
-          MySite user
+          Kiosk Cloud user
         </Link>
 
         {/* DESKTOP MENU */}
@@ -43,8 +43,8 @@ export default function UserAdminHeader() {
         
 
           {/* Admin pages */}
-          <Link href="/admin/add-work">Add Work</Link>
-          <Link href="/admin/my-work-list">My Work List</Link>
+          {/* <Link href="/admin/add-work">Add Work</Link>
+          <Link href="/admin/my-work-list">My Work List</Link> */}
           {/* <Link href="/admin/all-work-list">All Work List</Link>
            <Link href="/admin/open-work-list">open-work-list</Link>
           <Link href="/admin/work-filter">work-filter</Link> */}
@@ -80,8 +80,8 @@ export default function UserAdminHeader() {
           <Link href="/admin/my-work-list" onClick={() => setOpen(false)}>
             My Work List
           </Link> */}
-           <Link href="/admin/add-work" onClick={() => setOpen(false)}>Add Work</Link>
-          <Link href="/admin/my-work-list" onClick={() => setOpen(false)}>My Work List</Link>
+           {/* <Link href="/admin/add-work" onClick={() => setOpen(false)}>Add Work</Link>
+          <Link href="/admin/my-work-list" onClick={() => setOpen(false)}>My Work List</Link> */}
                  <UserLogoutButton />
         </nav>
       )}
