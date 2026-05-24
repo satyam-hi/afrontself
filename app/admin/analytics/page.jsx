@@ -319,7 +319,7 @@ export default function ProviderAnalyticsPage() {
 
               <Card
                 // title="Completed Settlement"
-                title=" Old online order total amount to be settled Completed "
+                title="Old online order total amount to be settled Completed"
                 
                 // value={
                 //   completedSettlementAmount

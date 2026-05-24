@@ -270,13 +270,13 @@ export default function ProviderKioskPage() {
   const gstPercent =
     provider?.additionalDetails?.gst?.percent || 0;
 
-  const totalAmount = cart.reduce(
+  const totalAmount =  Math.round(cart.reduce(
     (acc, item) =>
       acc +
       item.price * item.quantity +
       (item.price * item.quantity * gstPercent) / 100,
     0
-  );
+  ));
   // =========================================================
   // PLACE ORDER
   // =========================================================
