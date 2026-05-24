@@ -308,7 +308,8 @@ export default function ProviderAnalyticsPage() {
             <div className="grid md:grid-cols-4 gap-4 mt-6">
 
               <Card
-                title="Pending Settlement"
+                // title="Pending Settlement"
+                title="Current online order total amount to be settled"
                 // value={
                 //   pendingSettlementAmount
                 // }
@@ -317,7 +318,9 @@ export default function ProviderAnalyticsPage() {
               />
 
               <Card
-                title="Completed Settlement"
+                // title="Completed Settlement"
+                title=" Old online order total amount to be settled Completed "
+                
                 // value={
                 //   completedSettlementAmount
                 // }
