@@ -92,14 +92,18 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-4 mt-10">
-              <button className="bg-orange-500 hover:bg-orange-600 transition px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg shadow-orange-500/30">
-                {/* Start Free Trial */}
-                Start 
-              </button>
+             <Link href="/register-provider">
+                <button className="bg-orange-500 hover:bg-orange-600 transition px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg shadow-orange-500/30">
+                  {/* Start Free Trial */}
+                  Start 
+                </button>
+              </Link>
 
-              <button className="border border-white/20 hover:bg-white/10 transition px-8 py-4 rounded-2xl font-semibold text-lg">
-                Live Demo
-              </button>
+              <Link href="/provider-res">
+                <button className="border border-white/20 hover:bg-white/10 transition px-8 py-4 rounded-2xl font-semibold text-lg">
+                  Live Demo
+                </button>
+              </Link>
             </div>
 
             <div className="grid grid-cols-3 gap-6 mt-12">
@@ -324,9 +328,9 @@ export default function HomePage() {
                   <li>✔  Payments</li>
                 </ul>
 
-                <button className="mt-10 w-full bg-black text-white py-4 rounded-2xl font-bold text-lg hover:bg-gray-900 transition">
+                <Link href="/register-provider"><button className="mt-10 w-full bg-black text-white py-4 rounded-2xl font-bold text-lg hover:bg-gray-900 transition">
                   Choose Plan
-                </button>
+                </button></Link>
 
               </div>
 
@@ -351,9 +355,11 @@ export default function HomePage() {
             Launch your self-ordering restaurant platform today.
           </p>
 
-          <button className="mt-10 bg-black hover:bg-gray-900 transition px-10 py-5 rounded-2xl text-xl font-bold">
-            Get Started Now
-          </button>
+          <Link href="/register-provider">
+            <button className="mt-10 bg-black hover:bg-gray-900 transition px-10 py-5 rounded-2xl text-xl font-bold">
+              Get Started Now
+            </button>
+          </Link>
 
         </div>
 

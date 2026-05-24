@@ -1366,7 +1366,6 @@ export default function ProviderKioskPage() {
         <div className="xl:sticky xl:top-24 h-fit">
 
           <div className="bg-white rounded-2xl shadow-sm border p-4">
-
             <h2 className="text-lg md:text-xl font-bold mb-4">
               Order Cart
             </h2>
@@ -1629,6 +1628,10 @@ export default function ProviderKioskPage() {
                 </div>
               </>
             )}
+
+              <p className="text-sm text-gray-600 break-all">
+              {provider?.additionalDetails?.additionalNote?.value}
+              </p>
           </div>
         </div>
 
@@ -1878,7 +1881,12 @@ export default function ProviderKioskPage() {
                 </>
               )}
 
+              <p className="text-sm text-gray-600 break-all">
+              {provider?.additionalDetails?.additionalNote?.value}
+              </p>
+
             </div>
+            
           </div>
         )}
 
@@ -2038,6 +2046,7 @@ export default function ProviderKioskPage() {
 
 
             </div>
+            
           </div>
         )}
 

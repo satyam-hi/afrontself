@@ -1,9 +1,6 @@
 
-
-
-
-
 "use client";
+
 import { useState, useEffect } from "react";
 
 export default function EditProviderProfile() {
@@ -14,21 +11,32 @@ export default function EditProviderProfile() {
     const [providerId, setProviderId] = useState(null);
     const [provider, setProvider] = useState(null);
 
-    // // GET PROVIDER ID FROM COOKIE
+    // FORM STATE
     const [form, setForm] = useState({
         name: "",
         mobile: "",
-        // status: "active",
         email: "",
+
         additionalDetails: {
             productType: [],
             productCategory: [],
+
             gst: {
                 accept: false,
                 percent: 0,
             },
+
             tableSystem: {
                 accept: false,
+            },
+
+            // NEW FIELDS
+            additionalNote: {
+                value: "",
+            },
+
+            additionalDescription: {
+                value: "",
             },
         },
     });
@@ -66,14 +74,13 @@ export default function EditProviderProfile() {
         fetchProvider();
     }, []);
 
-    // SET FORM WHEN PROVIDER LOADS
+    // SET FORM DATA
     useEffect(() => {
         if (!provider) return;
 
         setForm({
             name: provider.name || "",
             mobile: provider.mobile || "",
-            // status: provider.status || "active",
             email: provider.email || "",
 
             additionalDetails: {
@@ -90,31 +97,48 @@ export default function EditProviderProfile() {
                     percent:
                         provider.additionalDetails?.gst?.percent || 0,
                 },
+
                 tableSystem: {
                     accept:
                         provider.additionalDetails?.tableSystem?.accept || false,
+                },
+
+                // NEW FIELDS
+                additionalNote: {
+                    value:
+                        provider.additionalDetails?.additionalNote?.value || "",
+                },
+
+                additionalDescription: {
+                    value:
+                        provider.additionalDetails?.additionalDescription?.value || "",
                 },
             },
         });
     }, [provider]);
 
-    console.log(form);
-
-
+    // ADD PRODUCT TYPE
     const handleAddType = () => {
         if (!newType) return;
+
         setForm((prev) => ({
             ...prev,
             additionalDetails: {
                 ...prev.additionalDetails,
-                productType: [...(prev.additionalDetails.productType || []), newType],
+                productType: [
+                    ...(prev.additionalDetails.productType || []),
+                    newType,
+                ],
             },
         }));
+
         setNewType("");
     };
 
+    // ADD CATEGORY
     const handleAddCategory = () => {
         if (!newCategory) return;
+
         setForm((prev) => ({
             ...prev,
             additionalDetails: {
@@ -125,9 +149,11 @@ export default function EditProviderProfile() {
                 ],
             },
         }));
+
         setNewCategory("");
     };
 
+    // REMOVE TYPE
     const handleRemoveType = (item) => {
         setForm((prev) => ({
             ...prev,
@@ -140,6 +166,7 @@ export default function EditProviderProfile() {
         }));
     };
 
+    // REMOVE CATEGORY
     const handleRemoveCategory = (item) => {
         setForm((prev) => ({
             ...prev,
@@ -152,44 +179,61 @@ export default function EditProviderProfile() {
         }));
     };
 
+    // SUBMIT
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setLoading(true);
 
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/providers/update-profile/${providerId}`,
-            {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/providers/update-profile/${providerId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(form),
+                }
+            );
+
+            const data = await res.json();
+
+            setLoading(false);
+
+            if (!res.ok) {
+                alert(data.message || "Update failed");
+                return;
             }
-        );
 
-        const data = await res.json();
-        setLoading(false);
-
-        if (!res.ok) {
-            alert(data.message || "Update failed");
-            return;
+            alert("Profile updated successfully");
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
         }
-
-        alert("Profile updated successfully");
     };
 
     return (
         <div className="max-w-xl mx-auto p-6 bg-white shadow rounded-lg">
 
-            <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+            <h2 className="text-xl font-bold mb-4">
+                Edit Profile
+            </h2>
 
             {/* NAME */}
             <input
                 className="border p-2 w-full mb-3"
                 value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                onChange={(e) =>
+                    setForm({
+                        ...form,
+                        name: e.target.value,
+                    })
+                }
                 placeholder="Name"
             />
 
-            {/* EMAIL (READONLY) */}
+            {/* EMAIL */}
             <input
                 className="border p-2 w-full mb-3 bg-gray-100"
                 value={form.email}
@@ -200,21 +244,19 @@ export default function EditProviderProfile() {
             <input
                 className="border p-2 w-full mb-3"
                 value={form.mobile}
-                onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+                onChange={(e) =>
+                    setForm({
+                        ...form,
+                        mobile: e.target.value,
+                    })
+                }
                 placeholder="Mobile"
             />
 
-            {/* STATUS */}
-            {/* <input
-                className="border p-2 w-full mb-3"
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value })}
-                placeholder="Status"
-            /> */}
-
             {/* GST */}
             <div className="mb-3">
-                <label>
+
+                <label className="flex items-center gap-2">
                     <input
                         type="checkbox"
                         checked={form.additionalDetails.gst.accept}
@@ -231,6 +273,7 @@ export default function EditProviderProfile() {
                             })
                         }
                     />
+
                     GST Apply
                 </label>
 
@@ -253,10 +296,67 @@ export default function EditProviderProfile() {
                     placeholder="GST %"
                 />
             </div>
-            {/* tableSystem  */}
+
+            {/* ADDITIONAL NOTE */}
             <div className="mb-3">
-                <label>
-                    <input    type="checkbox"
+
+                <label className="block mb-1 font-medium">
+                    Additional Note
+                </label>
+
+                <input
+                    type="text"
+                    className="border p-2 w-full"
+                    placeholder="Enter additional note"
+                    value={form.additionalDetails.additionalNote.value}
+                    onChange={(e) =>
+                        setForm({
+                            ...form,
+                            additionalDetails: {
+                                ...form.additionalDetails,
+                                additionalNote: {
+                                    ...form.additionalDetails.additionalNote,
+                                    value: e.target.value,
+                                },
+                            },
+                        })
+                    }
+                />
+            </div>
+
+            {/* ADDITIONAL DESCRIPTION */}
+            <div className="mb-3">
+
+                <label className="block mb-1 font-medium">
+                    Additional Description
+                </label>
+
+                <textarea
+                    className="border p-2 w-full"
+                    rows={4}
+                    placeholder="Enter additional description"
+                    value={form.additionalDetails.additionalDescription.value}
+                    onChange={(e) =>
+                        setForm({
+                            ...form,
+                            additionalDetails: {
+                                ...form.additionalDetails,
+                                additionalDescription: {
+                                    ...form.additionalDetails.additionalDescription,
+                                    value: e.target.value,
+                                },
+                            },
+                        })
+                    }
+                />
+            </div>
+
+            {/* TABLE SYSTEM */}
+            <div className="mb-3">
+
+                <label className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
                         checked={form.additionalDetails.tableSystem.accept}
                         onChange={(e) =>
                             setForm({
@@ -271,31 +371,50 @@ export default function EditProviderProfile() {
                             })
                         }
                     />
+
                     Table System
                 </label>
             </div>
 
             {/* PRODUCT TYPES */}
             <div className="mb-3">
-                <h3 className="font-semibold">Product Types</h3>
+
+                <h3 className="font-semibold">
+                    Product Types
+                </h3>
 
                 <div className="flex gap-2">
+
                     <input
                         value={newType}
                         onChange={(e) => setNewType(e.target.value)}
                         className="border p-2 flex-1"
                         placeholder="Add type"
                     />
-                    <button onClick={handleAddType} className="bg-blue-500 text-white px-3">
+
+                    <button
+                        type="button"
+                        onClick={handleAddType}
+                        className="bg-blue-500 text-white px-3"
+                    >
                         Add
                     </button>
                 </div>
 
                 <div className="flex gap-2 flex-wrap mt-2">
                     {form.additionalDetails.productType?.map((t, i) => (
-                        <span key={i} className="bg-gray-200 px-2 py-1">
+                        <span
+                            key={i}
+                            className="bg-gray-200 px-2 py-1"
+                        >
                             {t}
-                            <button onClick={() => handleRemoveType(t)}> ❌</button>
+
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveType(t)}
+                            >
+                                ❌
+                            </button>
                         </span>
                     ))}
                 </div>
@@ -303,30 +422,49 @@ export default function EditProviderProfile() {
 
             {/* PRODUCT CATEGORY */}
             <div className="mb-3">
-                <h3 className="font-semibold">Product Categories</h3>
+
+                <h3 className="font-semibold">
+                    Product Categories
+                </h3>
 
                 <div className="flex gap-2">
+
                     <input
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
                         className="border p-2 flex-1"
                         placeholder="Add category"
                     />
-                    <button onClick={handleAddCategory} className="bg-green-500 text-white px-3">
+
+                    <button
+                        type="button"
+                        onClick={handleAddCategory}
+                        className="bg-green-500 text-white px-3"
+                    >
                         Add
                     </button>
                 </div>
 
                 <div className="flex gap-2 flex-wrap mt-2">
                     {form.additionalDetails.productCategory?.map((c, i) => (
-                        <span key={i} className="bg-gray-200 px-2 py-1">
+                        <span
+                            key={i}
+                            className="bg-gray-200 px-2 py-1"
+                        >
                             {c}
-                            <button onClick={() => handleRemoveCategory(c)}> ❌</button>
+
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveCategory(c)}
+                            >
+                                ❌
+                            </button>
                         </span>
                     ))}
                 </div>
             </div>
 
+            {/* SUBMIT BUTTON */}
             <button
                 onClick={handleSubmit}
                 disabled={loading}
@@ -337,3 +475,388 @@ export default function EditProviderProfile() {
         </div>
     );
 }
+
+
+// ===========================================
+
+// "use client";
+// import { useState, useEffect } from "react";
+
+// export default function EditProviderProfile() {
+//     const [newType, setNewType] = useState("");
+//     const [newCategory, setNewCategory] = useState("");
+//     const [loading, setLoading] = useState(false);
+
+//     const [providerId, setProviderId] = useState(null);
+//     const [provider, setProvider] = useState(null);
+
+//     // // GET PROVIDER ID FROM COOKIE
+//     const [form, setForm] = useState({
+//         name: "",
+//         mobile: "",
+//         // status: "active",
+//         email: "",
+//         additionalDetails: {
+//             productType: [],
+//             productCategory: [],
+//             gst: {
+//                 accept: false,
+//                 percent: 0,
+//             },
+//             tableSystem: {
+//                 accept: false,
+//             },
+//         },
+//     });
+
+//     // FETCH PROVIDER
+//     useEffect(() => {
+//         async function fetchProvider() {
+//             try {
+//                 // GET COOKIE DATA
+//                 const res = await fetch("/api/cookies", {
+//                     cache: "no-store",
+//                 });
+
+//                 const data = await res.json();
+
+//                 if (!data?.id) return;
+
+//                 setProviderId(data.id);
+
+//                 // FETCH PROVIDER
+//                 const providerRes = await fetch(
+//                     `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/providers/provider/${data.id}`
+//                 );
+
+//                 const providerData = await providerRes.json();
+
+//                 if (providerData.success) {
+//                     setProvider(providerData.provider);
+//                 }
+//             } catch (error) {
+//                 console.log(error);
+//             }
+//         }
+
+//         fetchProvider();
+//     }, []);
+
+//     // SET FORM WHEN PROVIDER LOADS
+//     useEffect(() => {
+//         if (!provider) return;
+
+//         setForm({
+//             name: provider.name || "",
+//             mobile: provider.mobile || "",
+//             // status: provider.status || "active",
+//             email: provider.email || "",
+
+//             additionalDetails: {
+//                 productType:
+//                     provider.additionalDetails?.productType || [],
+
+//                 productCategory:
+//                     provider.additionalDetails?.productCategory || [],
+
+//                 gst: {
+//                     accept:
+//                         provider.additionalDetails?.gst?.accept || false,
+
+//                     percent:
+//                         provider.additionalDetails?.gst?.percent || 0,
+//                 },
+//                 tableSystem: {
+//                     accept:
+//                         provider.additionalDetails?.tableSystem?.accept || false,
+//                 },
+//             },
+//         });
+//     }, [provider]);
+
+//     console.log(form);
+
+
+//     const handleAddType = () => {
+//         if (!newType) return;
+//         setForm((prev) => ({
+//             ...prev,
+//             additionalDetails: {
+//                 ...prev.additionalDetails,
+//                 productType: [...(prev.additionalDetails.productType || []), newType],
+//             },
+//         }));
+//         setNewType("");
+//     };
+
+//     const handleAddCategory = () => {
+//         if (!newCategory) return;
+//         setForm((prev) => ({
+//             ...prev,
+//             additionalDetails: {
+//                 ...prev.additionalDetails,
+//                 productCategory: [
+//                     ...(prev.additionalDetails.productCategory || []),
+//                     newCategory,
+//                 ],
+//             },
+//         }));
+//         setNewCategory("");
+//     };
+
+//     const handleRemoveType = (item) => {
+//         setForm((prev) => ({
+//             ...prev,
+//             additionalDetails: {
+//                 ...prev.additionalDetails,
+//                 productType: prev.additionalDetails.productType.filter(
+//                     (t) => t !== item
+//                 ),
+//             },
+//         }));
+//     };
+
+//     const handleRemoveCategory = (item) => {
+//         setForm((prev) => ({
+//             ...prev,
+//             additionalDetails: {
+//                 ...prev.additionalDetails,
+//                 productCategory: prev.additionalDetails.productCategory.filter(
+//                     (c) => c !== item
+//                 ),
+//             },
+//         }));
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         setLoading(true);
+
+//         const res = await fetch(
+//             `${process.env.NEXT_PUBLIC_BACKEN_BASE_URL}/api/providers/update-profile/${providerId}`,
+//             {
+//                 method: "PUT",
+//                 headers: { "Content-Type": "application/json" },
+//                 body: JSON.stringify(form),
+//             }
+//         );
+
+//         const data = await res.json();
+//         setLoading(false);
+
+//         if (!res.ok) {
+//             alert(data.message || "Update failed");
+//             return;
+//         }
+
+//         alert("Profile updated successfully");
+//     };
+
+//     return (
+//         <div className="max-w-xl mx-auto p-6 bg-white shadow rounded-lg">
+
+//             <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+
+//             {/* NAME */}
+//             <input
+//                 className="border p-2 w-full mb-3"
+//                 value={form.name}
+//                 onChange={(e) => setForm({ ...form, name: e.target.value })}
+//                 placeholder="Name"
+//             />
+
+//             {/* EMAIL (READONLY) */}
+//             <input
+//                 className="border p-2 w-full mb-3 bg-gray-100"
+//                 value={form.email}
+//                 disabled
+//             />
+
+//             {/* MOBILE */}
+//             <input
+//                 className="border p-2 w-full mb-3"
+//                 value={form.mobile}
+//                 onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+//                 placeholder="Mobile"
+//             />
+
+//             {/* STATUS */}
+//             {/* <input
+//                 className="border p-2 w-full mb-3"
+//                 value={form.status}
+//                 onChange={(e) => setForm({ ...form, status: e.target.value })}
+//                 placeholder="Status"
+//             /> */}
+
+//             {/* GST */}
+//             <div className="mb-3">
+//                 <label>
+//                     <input
+//                         type="checkbox"
+//                         checked={form.additionalDetails.gst.accept}
+//                         onChange={(e) =>
+//                             setForm({
+//                                 ...form,
+//                                 additionalDetails: {
+//                                     ...form.additionalDetails,
+//                                     gst: {
+//                                         ...form.additionalDetails.gst,
+//                                         accept: e.target.checked,
+//                                     },
+//                                 },
+//                             })
+//                         }
+//                     />
+//                     GST Apply
+//                 </label>
+
+//                 <input
+//                     type="number"
+//                     className="border p-2 w-full mt-2"
+//                     value={form.additionalDetails.gst.percent}
+//                     onChange={(e) =>
+//                         setForm({
+//                             ...form,
+//                             additionalDetails: {
+//                                 ...form.additionalDetails,
+//                                 gst: {
+//                                     ...form.additionalDetails.gst,
+//                                     percent: e.target.value,
+//                                 },
+//                             },
+//                         })
+//                     }
+//                     placeholder="GST %"
+//                 />
+//             </div>
+
+//             {/* additional note */}
+//             <div className="mb-3">
+//                 <label>
+//                     Additional Note
+//                     <input   type="text"
+//                         value={form.additionalDetails.additionalNote.value}
+//                         onChange={(e) =>
+//                             setForm({
+//                                 ...form,
+//                                 additionalDetails: {
+//                                     ...form.additionalDetails,
+//                                     additionalNote: {
+//                                         ...form.additionalDetails.additionalNote,
+//                                         value: e.target.value,
+//                                     },
+//                                 },
+//                             })
+//                         }
+//                     />
+                    
+//                 </label>
+//             </div>
+//             {/* additional description */}
+
+//               <div className="mb-3">
+//                 <label>
+//                     Additional Description
+//                     <input   type="text"
+//                         value={form.additionalDetails.additionalDescription.value}
+//                         onChange={(e) =>
+//                             setForm({
+//                                 ...form,
+//                                 additionalDetails: {
+//                                     ...form.additionalDetails,
+//                                     additionalDescription: {
+//                                         ...form.additionalDetails.additionalDescription,
+//                                         value: e.target.value,
+//                                     },
+//                                 },
+//                             })
+//                         }
+//                     />
+                    
+//                 </label>
+//             </div>
+
+//             {/* tableSystem  */}
+//             <div className="mb-3">
+//                 <label>
+//                     <input    type="checkbox"
+//                         checked={form.additionalDetails.tableSystem.accept}
+//                         onChange={(e) =>
+//                             setForm({
+//                                 ...form,
+//                                 additionalDetails: {
+//                                     ...form.additionalDetails,
+//                                     tableSystem: {
+//                                         ...form.additionalDetails.tableSystem,
+//                                         accept: e.target.checked,
+//                                     },
+//                                 },
+//                             })
+//                         }
+//                     />
+//                     Table System
+//                 </label>
+//             </div>
+
+//             {/* PRODUCT TYPES */}
+//             <div className="mb-3">
+//                 <h3 className="font-semibold">Product Types</h3>
+
+//                 <div className="flex gap-2">
+//                     <input
+//                         value={newType}
+//                         onChange={(e) => setNewType(e.target.value)}
+//                         className="border p-2 flex-1"
+//                         placeholder="Add type"
+//                     />
+//                     <button onClick={handleAddType} className="bg-blue-500 text-white px-3">
+//                         Add
+//                     </button>
+//                 </div>
+
+//                 <div className="flex gap-2 flex-wrap mt-2">
+//                     {form.additionalDetails.productType?.map((t, i) => (
+//                         <span key={i} className="bg-gray-200 px-2 py-1">
+//                             {t}
+//                             <button onClick={() => handleRemoveType(t)}> ❌</button>
+//                         </span>
+//                     ))}
+//                 </div>
+//             </div>
+
+//             {/* PRODUCT CATEGORY */}
+//             <div className="mb-3">
+//                 <h3 className="font-semibold">Product Categories</h3>
+
+//                 <div className="flex gap-2">
+//                     <input
+//                         value={newCategory}
+//                         onChange={(e) => setNewCategory(e.target.value)}
+//                         className="border p-2 flex-1"
+//                         placeholder="Add category"
+//                     />
+//                     <button onClick={handleAddCategory} className="bg-green-500 text-white px-3">
+//                         Add
+//                     </button>
+//                 </div>
+
+//                 <div className="flex gap-2 flex-wrap mt-2">
+//                     {form.additionalDetails.productCategory?.map((c, i) => (
+//                         <span key={i} className="bg-gray-200 px-2 py-1">
+//                             {c}
+//                             <button onClick={() => handleRemoveCategory(c)}> ❌</button>
+//                         </span>
+//                     ))}
+//                 </div>
+//             </div>
+
+//             <button
+//                 onClick={handleSubmit}
+//                 disabled={loading}
+//                 className="bg-black text-white px-4 py-2 w-full"
+//             >
+//                 {loading ? "Updating..." : "Update Profile"}
+//             </button>
+//         </div>
+//     );
+// }
