@@ -57,7 +57,7 @@ export default function HomePage() {
     },
     {
       name: "Online with offline",
-      price: "4% of total order amount",
+      price: "5% of total online order amount",
     },
 
   ];
