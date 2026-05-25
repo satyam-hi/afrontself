@@ -268,7 +268,7 @@ export default function ProviderAnalyticsPage() {
             {/* ================================= */}
             {/* FIRST GRID */}
             {/* ================================= */}
-
+{/* 
             <div className="grid md:grid-cols-4 gap-4">
 
               <Card
@@ -299,12 +299,12 @@ export default function ProviderAnalyticsPage() {
                 color="text-red-500"
               />
 
-            </div>
+            </div> */}
 
             {/* ================================= */}
             {/* SECOND GRID */}
             {/* ================================= */}
-
+{/* 
             <div className="grid md:grid-cols-4 gap-4 mt-6">
 
               <Card
@@ -345,7 +345,7 @@ export default function ProviderAnalyticsPage() {
                 color="text-indigo-600"
               />
 
-            </div>
+            </div> */}
 
             {/* ================================= */}
             {/* INFO SECTION */}
