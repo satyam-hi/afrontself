@@ -57,7 +57,7 @@ export default function HomePage() {
     },
     {
       name: "Online with offline",
-      price: "5% of total online order amount",
+      price: "₹ 499/month",
     },
 
   ];
