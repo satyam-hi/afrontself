@@ -78,6 +78,24 @@ export default function ProviderDashboardHome() {
               </p>
             </div>
           </Link>
+{/* 
+          <Link href="/admin/provider-subscription">
+            <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg cursor-pointer transition">
+              <h3 className="text-xl font-semibold mb-2">💳 Subscriptions</h3>
+              <p className="text-gray-500 text-sm">
+                Manage provider monthly subscriptions and billing.
+              </p>
+            </div>
+          </Link> */}
+
+          <Link href="/admin/provider-subscription-buy">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow hover:shadow-lg cursor-pointer transition text-white">
+              <h3 className="text-xl font-semibold mb-2">🚀 Buy Subscription</h3>
+              <p className="text-blue-100 text-sm">
+                Upgrade your account with a paid monthly subscription plan.
+              </p>
+            </div>
+          </Link>
 
         </div>
 

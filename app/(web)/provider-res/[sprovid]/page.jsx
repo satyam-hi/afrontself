@@ -727,6 +727,20 @@ export default function ProviderKioskPage() {
   // UI
   // =========================================================
 
+
+  const canAccess =
+  provider?.status === "active" &&
+  provider?.subscription?.status === "active" &&
+  new Date(provider?.subscription?.nextBillingDate) > new Date();
+
+if (!canAccess) {
+  return (
+    <div>
+      <h1>Provider subscription has expired</h1>
+    </div>
+  );
+}
+
   // console.log("provider",provider)
   // if(provider?.status !="active"){
   //   return(
