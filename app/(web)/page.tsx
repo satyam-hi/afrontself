@@ -52,7 +52,7 @@ export default function HomePage() {
   // ];
     const pricing = [
     {
-      name: "Only offline",
+      name: "Free Trial",
       price: "free",
     },
     {
