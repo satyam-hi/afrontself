@@ -99,11 +99,11 @@ export default function HomePage() {
                 </button>
               </Link>
 
-              <Link href="/provider-res">
+              <a href="https://www.youtube.com/watch?v=HU3jMu-pzH0" target="_blank" rel="noopener noreferrer">
                 <button className="border border-white/20 hover:bg-white/10 transition px-8 py-4 rounded-2xl font-semibold text-lg">
                   Live Demo
                 </button>
-              </Link>
+              </a>
             </div>
 
             <div className="grid grid-cols-3 gap-6 mt-12">
