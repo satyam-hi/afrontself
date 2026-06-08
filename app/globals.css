@@ -62,3 +62,26 @@ body {
   animation: float 4s ease-in-out infinite;
 }
 /* ?================ */
+
+
+@media print {
+  /* 1. Hide everything inside your normal root/body */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* 2. Force ONLY the print section to show up */
+  #print-receipt-section, #print-receipt-section * {
+    visibility: visible;
+  }
+  
+  /* 3. Position it perfectly at the top left of the thermal sheet */
+  #print-receipt-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}

@@ -289,14 +289,15 @@ const handlePrintOrder = (order) => {
   // 2. Give React a split second to paint the DOM before calling print
   setTimeout(() => {
     window.print();
-  }, 100);
+  }, 300);
 };
 
   // ==============================
   // UI
   // ==============================
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <>
+    <div className="min-h-screen bg-gray-100 p-6 print:hidden" >
       <div className="max-w-7xl mx-auto">
 
         {/* HEADER */}
@@ -771,11 +772,11 @@ const handlePrintOrder = (order) => {
             </div>
           </div>
         )}
+    </div>
 
-
-        {/* HIDE ON SCREEN, ONLY DESIGNED FOR COURIER RECEIPT PRINTING */}
+    {/* HIDE ON SCREEN, ONLY DESIGNED FOR COURIER RECEIPT PRINTING */}
             {activePrintOrder && (
-              <div id="print-receipt-section" className="hidden">
+              <div id="print-receipt-section" className="hidden print:block">
                 <div style={{ fontFamily: 'monospace', padding: '10px', width: '80mm', color: '#000' }}>
                   <div style={{ textAlign: 'center' }}>
                     <h2 style={{ margin: '0 0 5px 0' }}>{activePrintOrder.sprovname || 'Restaurant'}</h2>
@@ -828,8 +829,7 @@ const handlePrintOrder = (order) => {
                 </div>
               </div>
             )}
-
-    </div>
+    </>
   );
 }
 // =============================filter working without edit======================
