@@ -259,6 +259,12 @@ export default function ProviderOrdersPage() {
             Queue
           </button>
 
+           <Link href={`/admin/create-order${cookies.id}`}>
+            <button className="bg-black text-white rounded p-2">
+              Create Order
+            </button>
+          </Link>
+
           
         </div>
 
