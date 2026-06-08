@@ -820,7 +820,7 @@ const handlePrintOrder = (order) => {
                   <div style={{ borderTop: '1px dashed #000', margin: '10px 0' }}></div>
                   
                   <div style={{ textAlign: 'right', fontWeight: 'bold', fontSize: '16px', marginTop: '10px' }}>
-                    Grand Total: ₹{activePrintOrder.totalAmount}
+                     With GST  Grand Total: ₹{activePrintOrder.totalAmount}
                   </div>
                   
                   <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px' }}>
