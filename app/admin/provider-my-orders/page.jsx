@@ -182,6 +182,102 @@ export default function ProviderOrdersPage() {
     }
   }
 
+
+  // print order================
+
+  const handlePrintOrder = (order) => {
+  // 1. Create a hidden iframe element
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'absolute';
+  iframe.style.top = '-9999px';
+  iframe.style.left = '-9999px';
+  document.body.appendChild(iframe);
+
+  const doc = iframe.contentWindow.document;
+
+  // 2. Generate clean HTML strictly for the thermal receipt layout
+  const itemsHtml = order.items.map(item => `
+    <tr style="border-bottom: 1px dashed #ddd;">
+      <td style="padding: 6px 0;">${item.name}</td>
+      <td style="text-align: center; padding: 6px 0;">${item.quantity}</td>
+      <td style="text-align: right; padding: 6px 0;">₹${Number(item.price).toFixed(2)}</td>
+      <td style="text-align: right; padding: 6px 0;">₹${(Number(item.quantity) * Number(item.price)).toFixed(2)}</td>
+    </tr>
+  `).join('');
+
+  const receiptContent = `
+    <html>
+      <head>
+        <title>Print Order #${order.tokenNumber}</title>
+        <style>
+          @page { size: auto; margin: 5mm; }
+          body { font-family: 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.4; color: #000; margin: 0; padding: 10px; width: 80mm; }
+          .text-center { text-align: center; }
+          .text-right { text-align: right; }
+          .bold { font-weight: bold; }
+          .divider { border-top: 1px dashed #000; margin: 10px 0; }
+          table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+          th { border-bottom: 1px solid #000; padding-bottom: 5px; }
+        </style>
+      </head>
+      <body>
+        <div class="text-center">
+          <h2 style="margin: 0 0 5px 0;">${order.sprovname || 'Restaurant'}</h2>
+          <p style="margin: 0; font-size: 12px;">Date: ${new Date(order.createdAt).toLocaleString()}</p>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div>
+          <div class="bold" style="font-size: 16px;">Token #${order.tokenNumber}</div>
+          <div>Mobile: ${order.customerMobile}</div>
+          <div>Type: ${order.ordrType.toUpperCase()} ${order.tableNumber ? `(Table: ${order.tableNumber})` : ''}</div>
+          <div>Payment: ${order.paymentMethod} (${order.paymentStatus})</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left;">Item</th>
+              <th>Qty</th>
+              <th style="text-align: right;">Price</th>
+              <th style="text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+        
+        <div class="divider"></div>
+        
+        <div class="text-right bold" style="font-size: 16px; margin-top: 10px;">
+          Grand Total: ₹${order.totalAmount}
+        </div>
+        
+        <div class="text-center" style="margin-top: 20px; font-size: 12px;">
+          Thank You! Come Again.
+        </div>
+      </body>
+    </html>
+  `;
+
+  // 3. Write contents to the iframe and trigger printing
+  doc.open();
+  doc.write(receiptContent);
+  doc.close();
+
+  // Wait for content to fully load into the frame before printing
+  iframe.contentWindow.focus();
+  setTimeout(() => {
+    iframe.contentWindow.print();
+    // 4. Remove the temporary iframe element from the document body
+    document.body.removeChild(iframe);
+  }, 500);
+};
+
   // ==============================
   // UI
   // ==============================
@@ -331,6 +427,16 @@ export default function ProviderOrdersPage() {
                       Edit Items
                     </button>
                     }
+
+                    {/* PRINT BUTTON */}
+                      <button
+                        onClick={() => handlePrintOrder(order)}
+                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded w-full sm:w-auto text-sm font-medium transition-colors"
+                      >
+                        Print Order
+                      </button>
+
+                    
                   </div>
                 </div>
 
