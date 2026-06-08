@@ -185,97 +185,111 @@ export default function ProviderOrdersPage() {
 
   // print order================
 
-  const handlePrintOrder = (order) => {
-  // 1. Create a hidden iframe element
-  const iframe = document.createElement('iframe');
-  iframe.style.position = 'absolute';
-  iframe.style.top = '-9999px';
-  iframe.style.left = '-9999px';
-  document.body.appendChild(iframe);
+//   const handlePrintOrder = (order) => {
+//   // 1. Create a hidden iframe element
+//   const iframe = document.createElement('iframe');
+//   iframe.style.position = 'absolute';
+//   iframe.style.top = '-9999px';
+//   iframe.style.left = '-9999px';
+//   document.body.appendChild(iframe);
 
-  const doc = iframe.contentWindow.document;
+//   const doc = iframe.contentWindow.document;
 
-  // 2. Generate clean HTML strictly for the thermal receipt layout
-  const itemsHtml = order.items.map(item => `
-    <tr style="border-bottom: 1px dashed #ddd;">
-      <td style="padding: 6px 0;">${item.name}</td>
-      <td style="text-align: center; padding: 6px 0;">${item.quantity}</td>
-      <td style="text-align: right; padding: 6px 0;">₹${Number(item.price).toFixed(2)}</td>
-      <td style="text-align: right; padding: 6px 0;">₹${(Number(item.quantity) * Number(item.price)).toFixed(2)}</td>
-    </tr>
-  `).join('');
+//   // 2. Generate clean HTML strictly for the thermal receipt layout
+//   const itemsHtml = order.items.map(item => `
+//     <tr style="border-bottom: 1px dashed #ddd;">
+//       <td style="padding: 6px 0;">${item.name}</td>
+//       <td style="text-align: center; padding: 6px 0;">${item.quantity}</td>
+//       <td style="text-align: right; padding: 6px 0;">₹${Number(item.price).toFixed(2)}</td>
+//       <td style="text-align: right; padding: 6px 0;">₹${(Number(item.quantity) * Number(item.price)).toFixed(2)}</td>
+//     </tr>
+//   `).join('');
 
-  const receiptContent = `
-    <html>
-      <head>
-        <title>Print Order #${order.tokenNumber}</title>
-        <style>
-          @page { size: auto; margin: 5mm; }
-          body { font-family: 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.4; color: #000; margin: 0; padding: 10px; width: 80mm; }
-          .text-center { text-align: center; }
-          .text-right { text-align: right; }
-          .bold { font-weight: bold; }
-          .divider { border-top: 1px dashed #000; margin: 10px 0; }
-          table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-          th { border-bottom: 1px solid #000; padding-bottom: 5px; }
-        </style>
-      </head>
-      <body>
-        <div class="text-center">
-          <h2 style="margin: 0 0 5px 0;">${order.sprovname || 'Restaurant'}</h2>
-          <p style="margin: 0; font-size: 12px;">Date: ${new Date(order.createdAt).toLocaleString()}</p>
-        </div>
+//   const receiptContent = `
+//     <html>
+//       <head>
+//         <title>Print Order #${order.tokenNumber}</title>
+//         <style>
+//           @page { size: auto; margin: 5mm; }
+//           body { font-family: 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.4; color: #000; margin: 0; padding: 10px; width: 80mm; }
+//           .text-center { text-align: center; }
+//           .text-right { text-align: right; }
+//           .bold { font-weight: bold; }
+//           .divider { border-top: 1px dashed #000; margin: 10px 0; }
+//           table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+//           th { border-bottom: 1px solid #000; padding-bottom: 5px; }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="text-center">
+//           <h2 style="margin: 0 0 5px 0;">${order.sprovname || 'Restaurant'}</h2>
+//           <p style="margin: 0; font-size: 12px;">Date: ${new Date(order.createdAt).toLocaleString()}</p>
+//         </div>
         
-        <div class="divider"></div>
+//         <div class="divider"></div>
         
-        <div>
-          <div class="bold" style="font-size: 16px;">Token #${order.tokenNumber}</div>
-          <div>Mobile: ${order.customerMobile}</div>
-          <div>Type: ${order.ordrType.toUpperCase()} ${order.tableNumber ? `(Table: ${order.tableNumber})` : ''}</div>
-          <div>Payment: ${order.paymentMethod} (${order.paymentStatus})</div>
-        </div>
+//         <div>
+//           <div class="bold" style="font-size: 16px;">Token #${order.tokenNumber}</div>
+//           <div>Mobile: ${order.customerMobile}</div>
+//           <div>Type: ${order.ordrType.toUpperCase()} ${order.tableNumber ? `(Table: ${order.tableNumber})` : ''}</div>
+//           <div>Payment: ${order.paymentMethod} (${order.paymentStatus})</div>
+//         </div>
         
-        <div class="divider"></div>
+//         <div class="divider"></div>
         
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align: left;">Item</th>
-              <th>Qty</th>
-              <th style="text-align: right;">Price</th>
-              <th style="text-align: right;">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th style="text-align: left;">Item</th>
+//               <th>Qty</th>
+//               <th style="text-align: right;">Price</th>
+//               <th style="text-align: right;">Total</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             ${itemsHtml}
+//           </tbody>
+//         </table>
         
-        <div class="divider"></div>
+//         <div class="divider"></div>
         
-        <div class="text-right bold" style="font-size: 16px; margin-top: 10px;">
-          Grand Total: ₹${order.totalAmount}
-        </div>
+//         <div class="text-right bold" style="font-size: 16px; margin-top: 10px;">
+//           Grand Total: ₹${order.totalAmount}
+//         </div>
         
-        <div class="text-center" style="margin-top: 20px; font-size: 12px;">
-          Thank You! Come Again.
-        </div>
-      </body>
-    </html>
-  `;
+//         <div class="text-center" style="margin-top: 20px; font-size: 12px;">
+//           Thank You! Come Again.
+//         </div>
+//       </body>
+//     </html>
+//   `;
 
-  // 3. Write contents to the iframe and trigger printing
-  doc.open();
-  doc.write(receiptContent);
-  doc.close();
+//   // 3. Write contents to the iframe and trigger printing
+//   doc.open();
+//   doc.write(receiptContent);
+//   doc.close();
 
-  // Wait for content to fully load into the frame before printing
-  iframe.contentWindow.focus();
+//   // Wait for content to fully load into the frame before printing
+//   iframe.contentWindow.focus();
+//   setTimeout(() => {
+//     iframe.contentWindow.print();
+//     // 4. Remove the temporary iframe element from the document body
+//     document.body.removeChild(iframe);
+//   }, 500);
+// };
+
+
+// Inside your main Component:
+const [activePrintOrder, setActivePrintOrder] = useState(null);
+
+const handlePrintOrder = (order) => {
+  // 1. Set the order to state so React renders it into the DOM
+  setActivePrintOrder(order);
+  
+  // 2. Give React a split second to paint the DOM before calling print
   setTimeout(() => {
-    iframe.contentWindow.print();
-    // 4. Remove the temporary iframe element from the document body
-    document.body.removeChild(iframe);
-  }, 500);
+    window.print();
+  }, 100);
 };
 
   // ==============================
@@ -757,6 +771,63 @@ export default function ProviderOrdersPage() {
             </div>
           </div>
         )}
+
+
+        {/* HIDE ON SCREEN, ONLY DESIGNED FOR COURIER RECEIPT PRINTING */}
+            {activePrintOrder && (
+              <div id="print-receipt-section" className="hidden">
+                <div style={{ fontFamily: 'monospace', padding: '10px', width: '80mm', color: '#000' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <h2 style={{ margin: '0 0 5px 0' }}>{activePrintOrder.sprovname || 'Restaurant'}</h2>
+                    <p style={{ margin: 0, fontSize: '12px' }}>
+                      Date: {new Date(activePrintOrder.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  
+                  <div style={{ borderTop: '1px dashed #000', margin: '10px 0' }}></div>
+                  
+                  <div>
+                    <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Token #{activePrintOrder.tokenNumber}</div>
+                    <div>Mobile: {activePrintOrder.customerMobile}</div>
+                    <div>Type: {activePrintOrder.ordrType?.toUpperCase()} {activePrintOrder.tableNumber ? `(Table: ${activePrintOrder.tableNumber})` : ''}</div>
+                    <div>Payment: {activePrintOrder.paymentMethod} ({activePrintOrder.paymentStatus})</div>
+                  </div>
+                  
+                  <div style={{ borderTop: '1px dashed #000', margin: '10px 0' }}></div>
+                  
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid #000' }}>
+                        <th style={{ textAlign: 'left', paddingBottom: '5px' }}>Item</th>
+                        <th style={{ paddingBottom: '5px' }}>Qty</th>
+                        <th style={{ textAlign: 'right', paddingBottom: '5px' }}>Price</th>
+                        <th style={{ textAlign: 'right', paddingBottom: '5px' }}>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {activePrintOrder.items.map((item, index) => (
+                        <tr key={index} style={{ borderBottom: '1px dashed #ddd' }}>
+                          <td style={{ padding: '6px 0' }}>{item.name}</td>
+                          <td style={{ textAlign: 'center', padding: '6px 0' }}>{item.quantity}</td>
+                          <td style={{ textAlign: 'right', padding: '6px 0' }}>₹{Number(item.price).toFixed(2)}</td>
+                          <td style={{ textAlign: 'right', padding: '6px 0' }}>₹{(Number(item.quantity) * Number(item.price)).toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  
+                  <div style={{ borderTop: '1px dashed #000', margin: '10px 0' }}></div>
+                  
+                  <div style={{ textAlign: 'right', fontWeight: 'bold', fontSize: '16px', marginTop: '10px' }}>
+                    Grand Total: ₹{activePrintOrder.totalAmount}
+                  </div>
+                  
+                  <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px' }}>
+                    Thank You! Come Again.
+                  </div>
+                </div>
+              </div>
+            )}
 
     </div>
   );
