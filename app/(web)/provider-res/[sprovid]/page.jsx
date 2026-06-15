@@ -1693,13 +1693,14 @@ if (!canAccess) {
                   </div>
 
                   {/* BUTTON */}
-
-                  <button
-                    onClick={placeOrder}
-                    className="w-full bg-green-600 hover:bg-green-700 active:scale-[0.98] transition text-white py-4 rounded-2xl text-lg font-bold shadow"
-                  >
-                    Place Order
-                  </button>
+                  {provider?.additionalDetails?.orderAppointmentStatus?.value === "start" && (
+                    <button
+                      onClick={placeOrder}
+                      className="w-full bg-green-600 hover:bg-green-700 active:scale-[0.98] transition text-white py-4 rounded-2xl text-lg font-bold shadow"
+                    >
+                      Place Order
+                    </button>
+                  )}
                 </div>
               </>
             )}
@@ -1982,15 +1983,16 @@ if (!canAccess) {
                     </div>
 
                     {/* BUTTON */}
-                    <button
-                      onClick={() => {
-                        placeOrder();
-                        setCartOpen(false);
-                      }}
+                    {provider?.additionalDetails?.orderAppointmentStatus?.value === "start" && (
+                      <button
+                        onClick={() => {
+                          placeOrder();
+                          setCartOpen(false);
+                        }}
                       className="w-full bg-green-600 text-white py-4 rounded-2xl font-bold"
                     >
                       Place Order
-                    </button>
+                    </button>)}
 
                   </div>
 

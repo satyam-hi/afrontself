@@ -113,6 +113,10 @@ export default function EditProviderProfile() {
                     value:
                         provider.additionalDetails?.additionalDescription?.value || "",
                 },
+                orderAppointmentStatus: {
+                    value:
+                        provider.additionalDetails?.orderAppointmentStatus?.value || "",
+                }
             },
         });
     }, [provider]);
@@ -296,6 +300,67 @@ export default function EditProviderProfile() {
                     placeholder="GST %"
                 />
             </div>
+
+
+            {/* --------------  order or appoimnet start stop---------------------------- */}
+
+            {/* -------------- Order or Appointment Start/Stop ---------------- */}
+                <div className="mb-3">
+                <label className="block mb-2 font-medium">
+                    Order / Appointment Status
+                </label>
+
+                <div className="flex gap-4">
+                    <label className="flex items-center gap-2">
+                    <input
+                        type="radio"
+                        name="orderAppointmentStatus"
+                        value="start"
+                        checked={
+                        form.additionalDetails.orderAppointmentStatus.value === "start"
+                        }
+                        onChange={(e) =>
+                        setForm({
+                            ...form,
+                            additionalDetails: {
+                            ...form.additionalDetails,
+                            orderAppointmentStatus: {
+                                ...form.additionalDetails.orderAppointmentStatus,
+                                value: e.target.value,
+                            },
+                            },
+                        })
+                        }
+                    />
+                    Start
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                    <input
+                        type="radio"
+                        name="orderAppointmentStatus"
+                        value="stop"
+                        checked={
+                        form.additionalDetails.orderAppointmentStatus.value === "stop"
+                        }
+                        onChange={(e) =>
+                        setForm({
+                            ...form,
+                            additionalDetails: {
+                            ...form.additionalDetails,
+                            orderAppointmentStatus: {
+                                ...form.additionalDetails.orderAppointmentStatus,
+                                value: e.target.value,
+                            },
+                            },
+                        })
+                        }
+                    />
+                    Stop
+                    </label>
+                </div>
+                </div>
+        
 
             {/* ADDITIONAL NOTE */}
             <div className="mb-3">
