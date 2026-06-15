@@ -38,6 +38,9 @@ export default function EditProviderProfile() {
             additionalDescription: {
                 value: "",
             },
+            orderAppointmentStatus: {
+                value: "",
+            }
         },
     });
 
@@ -115,7 +118,7 @@ export default function EditProviderProfile() {
                 },
                 orderAppointmentStatus: {
                     value:
-                        provider.additionalDetails?.orderAppointmentStatus?.value || "",
+                        provider?.additionalDetails?.orderAppointmentStatus?.value || "",
                 }
             },
         });
